@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>List Your Battery - Battery Passport</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="logo">
+        🔋 Battery Passport
+    </div>
+
+    <nav>
+        <a href="index.html">Home</a>
+    </nav>
+
+</header>
+
+
+
+<section class="hero">
+
+    <h1>
+        List Your <span>EV Battery</span>
+    </h1>
+
+    <p>
+        Create a digital identity for your retired EV battery.
+    </p>
+
+</section>
+
+
+
+<section class="card-section">
+
+    <div class="card form-card">
+
+        <h2>🔋 Battery Details</h2>
+
+
+        <!-- Battery Photo -->
+
+        <label>Battery Photo</label>
+
+        <input
+            type="file"
+            id="batteryPhoto"
+            accept="image/*"
+            onchange="showPhoto()"
+        >
+
+        <br><br>
+
+        <img
+            id="photoPreview"
+            width="250"
+            style="display:none; border-radius:15px;"
+        >
+
+
+        <!-- Battery ID -->
+
+        <label>Battery ID</label>
+
+        <input
+            type="text"
+            id="batteryID"
+            placeholder="Example: BP-001"
+        >
+
+
+        <!-- EV Model -->
+
+        <label>EV Model</label>
+
+        <input
+            type="text"
+            id="evModel"
+            placeholder="Example: Tata Nexon EV"
+        >
+
+
+        <!-- Battery Age -->
+
+        <label>Battery Age (Years)</label>
+
+        <input
+            type="number"
+            id="batteryAge"
+            placeholder="Example: 4"
+        >
+
+
+        <!-- Original Capacity -->
+
+        <label>Original Battery Capacity (kWh)</label>
+
+        <input
+            type="number"
+            id="originalCapacity"
+            placeholder="Example: 40"
+        >
+
+
+        <!-- Current Capacity -->
+
+        <label>Current Estimated Capacity (kWh)</label>
+
+        <input
+            type="number"
+            id="currentCapacity"
+            placeholder="Example: 32"
+        >
+
+
+        <!-- Usage -->
+
+        <label>Total Usage (km)</label>
+
+        <input
+            type="number"
+            id="usage"
+            placeholder="Example: 65000"
+        >
+
+
+        <!-- BMS -->
+
+        <label>BMS / Battery History Available?</label>
+
+        <select id="bms">
+
+            <option>Yes</option>
+
+            <option>No</option>
+
+        </select>
+
+
+        <br><br>
+
+
+        <!-- Submit -->
+
+        <button
+            class="primary"
+            onclick="calculateSOH()"
+        >
+
+            Submit Battery
+
+        </button>
+
+
+
+        <!-- SOH Result -->
+
+        <div
+            id="result"
+            class="health-card"
+        ></div>
+
+
+
+        <!-- Status Timeline -->
+
+        <div class="status-timeline">
+
+
+            <div class="timeline-step active">
+
+                <div class="circle">
+                    ✓
+                </div>
+
+                <p>
+                    Battery Submitted
+                </p>
+
+            </div>
+
+
+            <div class="timeline-line"></div>
+
+
+            <div class="timeline-step active">
+
+                <div class="circle">
+                    ✓
+                </div>
+
+                <p>
+                    SOH Estimated
+                </p>
+
+            </div>
+
+
+            <div class="timeline-line"></div>
+
+
+            <div class="timeline-step pending-step">
+
+                <div class="circle">
+                    3
+                </div>
+
+                <p>
+                    Pending Verification
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<script>
+
+
+// Show uploaded battery photo
+
+function showPhoto() {
+
+    let file =
+        document.getElementById("batteryPhoto").files[0];
+
+    let preview =
+        document.getElementById("photoPreview");
+
+
+    if (file) {
+
+        preview.src =
+            URL.createObjectURL(file);
+
+        preview.style.display =
+            "block";
+
+    }
+
+}
+
+
+
+// Calculate SOH and save battery
+
+function calculateSOH() {
+
+
+    // Get values from form
+
+    let batteryID =
+        document.getElementById("batteryID").value;
+
+    let evModel =
+        document.getElementById("evModel").value;
+
+    let age =
+        document.getElementById("batteryAge").value;
+
+    let original =
+        Number(
+            document.getElementById("originalCapacity").value
+        );
+
+    let current =
+        Number(
+            document.getElementById("currentCapacity").value
+        );
+
+    let usage =
+        document.getElementById("usage").value;
+
+    let bms =
+        document.getElementById("bms").value;
+
+
+
+    // Check required fields
+
+    if (
+        batteryID === "" ||
+        evModel === "" ||
+        original <= 0 ||
+        current <= 0
+    ) {
+
+        let result =
+            document.getElementById("result");
+
+        result.style.display =
+            "block";
+
+        result.innerHTML =
+            "⚠️ Please fill in the required battery details.";
+
+        return;
+
+    }
+
+
+
+    // Check capacity
+
+    if (current > original) {
+
+        let result =
+            document.getElementById("result");
+
+        result.style.display =
+            "block";
+
+        result.innerHTML =
+            "⚠️ Current capacity cannot be greater than original capacity.";
+
+        return;
+
+    }
+
+
+
+    // Calculate SOH
+
+    let soh =
+        (current / original) * 100;
+
+
+
+    // Create battery object
+
+    let battery = {
+
+        batteryID: batteryID,
+
+        evModel: evModel,
+
+        age: age,
+
+        originalCapacity: original,
+
+        currentCapacity: current,
+
+        usage: usage,
+
+        bms: bms,
+
+        estimatedSOH: soh.toFixed(1),
+
+        status: "Pending Verification"
+
+    };
+
+
+
+    // Save battery information
+
+    localStorage.setItem(
+        "batteryData",
+        JSON.stringify(battery)
+    );
+
+
+
+    // Display result
+
+    let result =
+        document.getElementById("result");
+
+    result.style.display =
+        "block";
+
+
+    result.innerHTML =
+
+        "<div>Estimated State of Health</div>" +
+
+        "<div class='soh'>" +
+        soh.toFixed(1) +
+        "%" +
+        "</div>" +
+
+        "<div class='pending'>" +
+        "⏳ Pending Verification" +
+        "</div>";
+
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Battery Passport</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <header>
+
+        <div class="logo">
+            🔋 Battery Passport
+        </div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="buyer.html">Marketplace</a>
+        </nav>
+
+    </header>
+
+
+    <section class="hero">
+
+        <h1>
+            Battery <span>Passport</span>
+        </h1>
+
+        <p>
+            Verified digital identity of a retired EV battery.
+        </p>
+
+    </section>
+
+
+    <section class="card-section">
+
+        <!-- Battery Identity -->
+
+        <div class="card">
+
+            <h3>🔋 Battery Identity</h3>
+
+            <p>
+                <strong>Passport ID:</strong>
+                <span id="passportID">-</span>
+            </p>
+
+            <p>
+                <strong>EV Model:</strong>
+                <span id="evModel">-</span>
+            </p>
+
+            <p>
+                <strong>Battery Age:</strong>
+                <span id="batteryAge">-</span>
+                Years
+            </p>
+
+        </div>
+
+
+        <!-- Battery Health -->
+
+        <div class="card">
+
+            <h3>📊 Battery Health</h3>
+
+            <p>
+                <strong>Original Capacity:</strong>
+                <span id="originalCapacity">-</span>
+                kWh
+            </p>
+
+            <p>
+                <strong>Estimated SOH:</strong>
+                <span id="estimatedSOH">-</span>%
+            </p>
+
+            <p>
+                <strong>Verified SOH:</strong>
+                <span id="verifiedSOH">-</span>%
+            </p>
+
+        </div>
+
+
+        <!-- Verification -->
+
+        <div class="card">
+
+            <h3>✅ Verification</h3>
+
+            <p>
+                <strong>Safety Test:</strong>
+                <span id="safety">-</span>
+            </p>
+
+            <p>
+                <strong>Verification:</strong>
+                <span id="verification">-</span>
+            </p>
+
+            <p>
+                <strong>Tester:</strong>
+                Certified Partner
+            </p>
+
+        </div>
+
+
+        <!-- Second Life -->
+
+        <div class="card">
+
+            <h3>♻️ Second-Life Potential</h3>
+
+            <p>
+                Suitable for:
+            </p>
+
+            <p>
+                • Stationary Energy Storage
+            </p>
+
+            <p>
+                • Solar Energy Storage
+            </p>
+
+            <p>
+                • Backup Power
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section class="hero">
+
+        <h2>
+            🔐 Verified Battery Identity
+        </h2>
+
+        <p id="passportMessage">
+            This passport contains the battery's health,
+            verification and lifecycle information.
+        </p>
+
+    </section>
+
+
+    <script>
+
+        function loadPassport() {
+
+            let data = localStorage.getItem("batteryData");
+
+            if (!data) {
+
+                document.getElementById("passportMessage").innerText =
+                    "No battery passport data found.";
+
+                return;
+            }
+
+            let battery = JSON.parse(data);
+
+
+            // Only show passport for approved batteries
+
+            if (battery.status !== "Approved") {
+
+                document.getElementById("passportMessage").innerText =
+                    "This battery has not been verified yet.";
+
+                return;
+            }
+
+
+            // Battery Identity
+
+            document.getElementById("passportID").innerText =
+                battery.batteryID;
+
+            document.getElementById("evModel").innerText =
+                battery.evModel;
+
+            document.getElementById("batteryAge").innerText =
+                battery.age;
+
+
+            // Battery Health
+
+            document.getElementById("originalCapacity").innerText =
+                battery.originalCapacity;
+
+            document.getElementById("estimatedSOH").innerText =
+                battery.estimatedSOH;
+
+            document.getElementById("verifiedSOH").innerText =
+                battery.verifiedSOH;
+
+
+            // Verification
+
+            document.getElementById("safety").innerText =
+                battery.safety;
+
+            document.getElementById("verification").innerText =
+                battery.status;
+
+        }
+
+
+        window.onload = loadPassport;
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Tester Dashboard - Battery Passport</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        🔋 Battery Passport
+    </div>
+
+    <nav>
+        <a href="index.html">Home</a>
+    </nav>
+
+</header>
+
+
+<section class="hero">
+
+    <h1>Tester <span>Dashboard</span></h1>
+
+    <p>
+        Verify retired EV batteries before they are listed
+        in the marketplace.
+    </p>
+
+</section>
+
+
+<section class="card-section">
+
+    <div class="card">
+
+        <h3 id="batteryTitle">
+            🔋 Loading Battery...
+        </h3>
+
+        <p>
+            <strong>Battery ID:</strong>
+            <span id="batteryID">Loading...</span>
+        </p>
+
+        <p>
+            <strong>EV Model:</strong>
+            <span id="evModel">Loading...</span>
+        </p>
+
+        <p>
+            <strong>Battery Age:</strong>
+            <span id="batteryAge">Loading...</span>
+            years
+        </p>
+
+        <p>
+            <strong>Original Capacity:</strong>
+            <span id="originalCapacity">Loading...</span>
+            kWh
+        </p>
+
+        <p>
+            <strong>Estimated SOH:</strong>
+            <span id="estimatedSOH">Loading...</span>
+            %
+        </p>
+
+        <p>
+            <strong>Status:</strong>
+            <span id="batteryStatus">
+                Loading...
+            </span>
+        </p>
+
+        <hr>
+
+        <h3>🧪 Physical Test</h3>
+
+        <p>
+            Safety Inspection
+        </p>
+
+        <select id="safety">
+
+            <option value="Passed">
+                Passed
+            </option>
+
+            <option value="Failed">
+                Failed
+            </option>
+
+        </select>
+
+
+        <p>
+            Final Verified SOH
+        </p>
+
+        <input
+            type="number"
+            id="finalSOH"
+            placeholder="Example: 78"
+        >
+
+
+        <br><br>
+
+
+        <button
+            class="primary"
+            onclick="approveBattery()"
+        >
+            Approve Battery
+        </button>
+
+
+        <button
+            class="secondary"
+            onclick="rejectBattery()"
+        >
+            Reject Battery
+        </button>
+
+
+        <p id="status"></p>
+
+    </div>
+
+</section>
+
+
+<script>
+
+window.onload = function() {
+
+    loadBattery();
+
+};
+
+
+function loadBattery() {
+
+    let savedData =
+        localStorage.getItem("batteryData");
+
+
+    if (!savedData) {
+
+        document.getElementById("batteryTitle").innerHTML =
+            "⚠️ No Battery Submitted";
+
+        document.getElementById("batteryID").innerHTML =
+            "No data";
+
+        document.getElementById("evModel").innerHTML =
+            "No data";
+
+        document.getElementById("batteryAge").innerHTML =
+            "No data";
+
+        document.getElementById("originalCapacity").innerHTML =
+            "No data";
+
+        document.getElementById("estimatedSOH").innerHTML =
+            "No data";
+
+        document.getElementById("batteryStatus").innerHTML =
+            "No battery available";
+
+        return;
+
+    }
+
+
+    let battery =
+        JSON.parse(savedData);
+
+
+    document.getElementById("batteryTitle").innerHTML =
+        "🔋 " + battery.evModel;
+
+
+    document.getElementById("batteryID").innerHTML =
+        battery.batteryID;
+
+
+    document.getElementById("evModel").innerHTML =
+        battery.evModel;
+
+
+    document.getElementById("batteryAge").innerHTML =
+        battery.age;
+
+
+    document.getElementById("originalCapacity").innerHTML =
+        battery.originalCapacity;
+
+
+    document.getElementById("estimatedSOH").innerHTML =
+        battery.estimatedSOH;
+
+
+    document.getElementById("batteryStatus").innerHTML =
+        battery.status;
+
+}
+
+
+
+function approveBattery() {
+
+    let savedData =
+        localStorage.getItem("batteryData");
+
+
+    if (!savedData) {
+
+        document.getElementById("status").innerHTML =
+            "⚠️ No battery has been submitted.";
+
+        return;
+
+    }
+
+
+    let battery =
+        JSON.parse(savedData);
+
+
+    let safety =
+        document.getElementById("safety").value;
+
+
+    let finalSOH =
+        document.getElementById("finalSOH").value;
+
+
+    if (safety === "Failed") {
+
+        document.getElementById("status").innerHTML =
+            "❌ Battery failed the safety test.";
+
+        return;
+
+    }
+
+
+    if (finalSOH === "") {
+
+        document.getElementById("status").innerHTML =
+            "⚠️ Enter the final verified SOH.";
+
+        return;
+
+    }
+
+
+    battery.status =
+        "Approved";
+
+
+    battery.verifiedSOH =
+        finalSOH;
+
+
+    battery.safety =
+        "Passed";
+
+
+    localStorage.setItem(
+        "batteryData",
+        JSON.stringify(battery)
+    );
+
+
+    document.getElementById("batteryStatus").innerHTML =
+        "Approved";
+
+
+    document.getElementById("status").innerHTML =
+        "✅ Battery Approved! Final Verified SOH: "
+        + finalSOH
+        + "%";
+
+}
+
+
+
+function rejectBattery() {
+
+    let savedData =
+        localStorage.getItem("batteryData");
+
+
+    if (!savedData) {
+
+        document.getElementById("status").innerHTML =
+            "⚠️ No battery has been submitted.";
+
+        return;
+
+    }
+
+
+    let battery =
+        JSON.parse(savedData);
+
+
+    battery.status =
+        "Rejected";
+
+
+    localStorage.setItem(
+        "batteryData",
+        JSON.stringify(battery)
+    );
+
+
+    document.getElementById("batteryStatus").innerHTML =
+        "Rejected";
+
+
+    document.getElementById("status").innerHTML =
+        "❌ Battery Rejected.";
+
+}
+
+</script>
+
+
+</body>
+
+</html>

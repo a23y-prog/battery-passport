@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Battery Passport</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <header>
+
+        <div class="logo">
+            🔋 Battery Passport
+        </div>
+
+        <nav>
+
+            <a href="index.html">Home</a>
+
+            <a href="#how-it-works">
+                How It Works
+            </a>
+
+            <a href="#about">
+                About
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <section class="hero">
+
+        <h1>
+            Give Every EV Battery<br>
+            <span>A Second Life.</span>
+        </h1>
+
+        <p>
+            A trusted digital platform to verify battery health,
+            create a Battery Passport, and connect retired EV
+            batteries with suitable second-life applications.
+        </p>
+
+
+        <div class="buttons">
+
+            <button class="primary" onclick="goToSeller()">
+                List Your Battery
+            </button>
+
+            <button class="secondary" onclick="goToBuyer()">
+                Explore Batteries
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <section class="card-section" id="how-it-works">
+
+        <div class="card">
+
+            <h3>🔍 Evaluate</h3>
+
+            <p>
+                Estimate the battery's State of Health
+                using available battery data.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>✓ Verify</h3>
+
+            <p>
+                Qualified testers verify the battery
+                before it reaches the marketplace.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>♻️ Reuse</h3>
+
+            <p>
+                Connect approved batteries with
+                suitable second-life applications.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section class="hero" id="about">
+
+        <h2>
+            🔋 About Battery Passport
+        </h2>
+
+        <p>
+            Battery Passport gives retired EV batteries
+            a verified digital identity containing their
+            health, safety and verification information.
+        </p>
+
+        <p>
+            Approved batteries can then be discovered by
+            buyers for suitable second-life applications.
+        </p>
+
+    </section>
+
+
+    <script>
+
+        function goToSeller() {
+
+            window.location.href = "seller.html";
+
+        }
+
+
+        function goToBuyer() {
+
+            window.location.href = "buyer.html";
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>

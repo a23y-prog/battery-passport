@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Battery Marketplace - Battery Passport</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="logo">
+        🔋 Battery Passport
+    </div>
+
+    <nav>
+        <a href="index.html">Home</a>
+    </nav>
+
+</header>
+
+
+
+<section class="hero">
+
+    <h1>
+        Verified <span>Batteries</span>
+    </h1>
+
+    <p>
+        Explore retired EV batteries that have passed
+        qualified verification.
+    </p>
+
+</section>
+
+
+
+<section class="card-section">
+
+
+    <!-- APPROVED BATTERY -->
+
+    <div
+        class="card"
+        id="approvedBatteryCard"
+    >
+
+        <h3 id="buyerModel">
+            🔋 Loading Battery...
+        </h3>
+
+
+        <p>
+            <strong>Battery ID:</strong>
+            <span id="buyerBatteryID">-</span>
+        </p>
+
+
+        <p>
+            <strong>Original Capacity:</strong>
+            <span id="buyerCapacity">-</span>
+            kWh
+        </p>
+
+
+        <p>
+            <strong>Verified SOH:</strong>
+            <span id="buyerSOH">-</span>%
+        </p>
+
+
+        <p>
+            <strong>Safety:</strong>
+            <span id="buyerSafety">-</span>
+        </p>
+
+
+        <p>
+            <strong>Verification:</strong>
+            <span id="buyerStatus">-</span>
+        </p>
+
+
+        <button
+            class="primary"
+            onclick="viewPassport()"
+        >
+            View Battery Passport
+        </button>
+
+    </div>
+
+
+
+    <!-- MESSAGE WHEN NO APPROVED BATTERY EXISTS -->
+
+    <div
+        class="card"
+        id="noBatteryCard"
+        style="display:none;"
+    >
+
+        <h3>
+            🔋 No Verified Batteries
+        </h3>
+
+        <p>
+            There are currently no batteries
+            approved by a tester.
+        </p>
+
+        <button
+            class="secondary"
+            disabled
+        >
+            No Batteries Available
+        </button>
+
+    </div>
+
+
+</section>
+
+
+
+<script>
+
+
+// Load the battery approved by the tester
+
+function loadMarketplace() {
+
+
+    let savedData =
+        localStorage.getItem("batteryData");
+
+
+    // No battery submitted
+
+    if (!savedData) {
+
+        showNoBattery();
+
+        return;
+
+    }
+
+
+    let battery =
+        JSON.parse(savedData);
+
+
+    // Only APPROVED batteries appear
+
+    if (battery.status !== "Approved") {
+
+        showNoBattery();
+
+        return;
+
+    }
+
+
+    // Display approved battery
+
+    document.getElementById("approvedBatteryCard")
+        .style.display = "block";
+
+
+    document.getElementById("noBatteryCard")
+        .style.display = "none";
+
+
+    document.getElementById("buyerModel")
+        .innerHTML =
+        "🔋 " + battery.evModel;
+
+
+    document.getElementById("buyerBatteryID")
+        .innerHTML =
+        battery.batteryID;
+
+
+    document.getElementById("buyerCapacity")
+        .innerHTML =
+        battery.originalCapacity;
+
+
+    document.getElementById("buyerSOH")
+        .innerHTML =
+        battery.verifiedSOH;
+
+
+    document.getElementById("buyerSafety")
+        .innerHTML =
+        "✅ " + battery.safety;
+
+
+    document.getElementById("buyerStatus")
+        .innerHTML =
+        "✅ " + battery.status;
+
+}
+
+
+
+// Show message when battery is not approved
+
+function showNoBattery() {
+
+
+    document.getElementById("approvedBatteryCard")
+        .style.display = "none";
+
+
+    document.getElementById("noBatteryCard")
+        .style.display = "block";
+
+}
+
+
+
+// Open battery passport
+
+function viewPassport() {
+
+    window.location.href =
+        "passport.html";
+
+}
+
+
+
+// Run when page loads
+
+window.onload =
+    loadMarketplace;
+
+
+</script>
+
+
+</body>
+
+</html>
