@@ -11,6 +11,8 @@
 
 <body>
 
+    <!-- HEADER -->
+
     <header>
 
         <div class="logo">
@@ -34,6 +36,8 @@
     </header>
 
 
+    <!-- HERO -->
+
     <section class="hero">
 
         <h1>
@@ -47,23 +51,119 @@
             batteries with suitable second-life applications.
         </p>
 
+    </section>
 
-        <div class="buttons">
 
-            <button class="primary" onclick="goToSeller()">
-                List Your Battery
-            </button>
+    <!-- ROLE SELECTION -->
 
-            <button class="secondary" onclick="goToBuyer()">
-                Explore Batteries
-            </button>
+    <section class="role-section">
+
+        <h2>
+            What are you looking for?
+        </h2>
+
+        <p>
+            Select your role to continue.
+        </p>
+
+
+        <div class="role-container">
+
+
+            <!-- SELLER -->
+
+            <div class="role-card">
+
+                <div class="role-icon">
+                    👤
+                </div>
+
+                <h3>
+                    Seller
+                </h3>
+
+                <p>
+                    I want to list my retired EV battery
+                    for second-life use.
+                </p>
+
+                <button
+                    class="primary"
+                    onclick="goToSeller()">
+
+                    List My Battery
+
+                </button>
+
+            </div>
+
+
+            <!-- TESTER -->
+
+            <div class="role-card">
+
+                <div class="role-icon">
+                    🔬
+                </div>
+
+                <h3>
+                    Tester
+                </h3>
+
+                <p>
+                    I want to verify battery health
+                    and safety before approval.
+                </p>
+
+                <button
+                    class="primary"
+                    onclick="goToTester()">
+
+                    Verify Battery
+
+                </button>
+
+            </div>
+
+
+            <!-- BUYER -->
+
+            <div class="role-card">
+
+                <div class="role-icon">
+                    🛒
+                </div>
+
+                <h3>
+                    Buyer
+                </h3>
+
+                <p>
+                    I want to find verified batteries
+                    for second-life applications.
+                </p>
+
+                <button
+                    class="primary"
+                    onclick="goToBuyer()">
+
+                    Explore Batteries
+
+                </button>
+
+            </div>
+
 
         </div>
 
     </section>
 
 
-    <section class="card-section" id="how-it-works">
+    <!-- HOW IT WORKS -->
+
+    <section
+        class="card-section"
+        id="how-it-works">
 
         <div class="card">
 
@@ -103,7 +203,11 @@
     </section>
 
 
-    <section class="hero" id="about">
+    <!-- ABOUT -->
+
+    <section
+        class="hero"
+        id="about">
 
         <h2>
             🔋 About Battery Passport
@@ -123,11 +227,20 @@
     </section>
 
 
+    <!-- JAVASCRIPT -->
+
     <script>
 
         function goToSeller() {
 
             window.location.href = "seller.html";
+
+        }
+
+
+        function goToTester() {
+
+            window.location.href = "tester.html";
 
         }
 
